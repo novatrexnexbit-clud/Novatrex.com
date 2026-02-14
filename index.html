@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVATREX Exchange</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body{
+margin:0;
+font-family:Poppins;
+background:#061226;
+color:white;
+overflow-y:scroll;
+}
+
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 18px;
+background:#071a33;
+}
+.logo-wrap{
+display:flex;
+align-items:center;
+}
+.logo-img{
+width:40px;
+margin-right:10px;
+}
+.brand{
+font-size:22px;
+font-weight:600;
+background:linear-gradient(45deg,#ffd76a,#3fd6ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.button-conn{
+padding:8px 16px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#ffd76a,#3fd6ff);
+cursor:pointer;
+color:white;
+}
+
+/* BALANCE */
+.balance{
+background:#0d203d;
+margin:15px;
+padding:18px;
+border-radius:15px;
+position:relative;
+}
+.balance h4{
+color:#ccc;
+margin:0;
+}
+.balance h1{
+margin:8px 0;
+}
+.deposit-btn{
+position:absolute;
+top:18px;
+right:18px;
+background:linear-gradient(45deg,#ffd76a,#3fd6ff);
+padding:10px 18px;
+border-radius:12px;
+cursor:pointer;
+}
+
+/* ICON GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+text-align:center;
+margin-top:25px;
+gap:12px;
+}
+.grid div{
+background:#0f2a4f;
+padding:14px;
+border-radius:12px;
+font-size:12px;
+cursor:pointer;
+}
+.grid i{
+font-size:22px;
+margin-bottom:6px;
+}
+
+/* BANNER */
+.banner{
+margin:15px;
+background:#0f2a4f;
+border-radius:15px;
+padding:14px;
+}
+.banner h3{margin:0;}
+
+/* REWARD */
+.reward{
+margin:15px;
+padding:15px;
+border-radius:15px;
+background:linear-gradient(45deg,#ffd76a,#3fd6ff);
+display:flex;
+justify-content:space-between;
+}
+
+/* MARKET */
+.market{
+background:#0f2a4f;
+margin:15px;
+padding:15px;
+border-radius:15px;
+}
+
+/* FOOTER */
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#071a33;
+display:flex;
+justify-content:space-around;
+padding:10px;
+}
+.footer div{
+font-size:12px;
+text-align:center;
+cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+.modal-box{
+background:#0f2a4f;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:350px;
+}
+.modal-box input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:10px;
+background:#081a33;
+color:white;
+}
+.modal-box button{
+width:100%;
+padding:12px;
+background:linear-gradient(45deg,#ffd76a,#3fd6ff);
+border:none;
+border-radius:10px;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<div class="logo-wrap">
+<img src="logo.png" class="logo-img">
+<div class="brand">NOVATREX</div>
+</div>
+<button class="button-conn" onclick="showAuthModal()">Login</button>
+</div>
+
+<!-- BALANCE -->
+<div class="balance">
+<h4>Solde (USDT)</h4>
+<h1 id="balance">0.00</h1>
+<div>ID : <span id="userId">---</span></div>
+<div>Code Parrain : <span id="refCode">---</span></div>
+<div class="deposit-btn" onclick="deposit()">Dépôt</div>
+
+<div class="grid">
+<div onclick="withdraw()"><i class="fas fa-arrow-up"></i>Retrait</div>
+<div onclick="invite()"><i class="fas fa-user-plus"></i>Invitation</div>
+<div onclick="cert()"><i class="fas fa-id-card"></i>Certificat</div>
+<div><i class="fas fa-coins"></i>Convertir</div>
+</div>
+
+<div class="grid">
+<div><i class="fas fa-gift"></i>Offre 1$</div>
+<div><i class="fas fa-globe"></i>Écosystème</div>
+<div><i class="fas fa-cube"></i>DeFi</div>
+<div><i class="fas fa-gamepad"></i>GameFi</div>
+</div>
+</div>
+
+<!-- BANNER -->
+<div class="banner">
+<h3>One-Stop Service For Crypto Trading</h3>
+<p>NOVATREX Your Global Exchange</p>
+</div>
+
+<!-- REWARD -->
+<div class="reward">
+<div>Centre Récompenses</div>
+<div>Plus d’avantages</div>
+</div>
+
+<!-- MARKET -->
+<div class="market">
+<h3>Meilleurs mouvements</h3>
+<p>BTC/USDT : <span id="btc">--</span></p>
+<p>ETH/USDT : <span id="eth">--</span></p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+<div><i class="fa fa-home"></i><br>Accueil</div>
+<div><i class="fa fa-chart-line"></i><br>Marché</div>
+<div><i class="fa fa-exchange"></i><br>Trade</div>
+<div onclick="openDelivery()"><i class="fa fa-truck"></i><br>Delivery</div>
+<div><i class="fa fa-wallet"></i><br>Solde</div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+<div class="modal-box" id="loginBox">
+<h3>Login</h3>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p onclick="showRegister()">Créer compte</p>
+</div>
+<div class="modal-box" id="registerBox" style="display:none">
+<h3>S'inscrire</h3>
+<input id="regName" placeholder="Nom">
+<input id="regEmail" placeholder="Email">
+<input id="regRef" placeholder="Code Parrain">
+<input id="regPass" placeholder="Mot de passe 6 chiffres">
+<input id="regConfirm" placeholder="Confirmer">
+<button onclick="register()">Créer</button>
+<p onclick="backLogin()">Retour Login</p>
+</div>
+</div>
+
+<!-- DELIVERY MODAL -->
+<div class="modal" id="deliveryModal">
+<div class="modal-box">
+<h3>Delivery</h3>
+<button onclick="showSignal()">Signal</button>
+<button onclick="closeDelivery()">Close</button>
+</div>
+</div>
+
+<!-- SIGNAL MODAL -->
+<div class="modal" id="signalModal">
+<div class="modal-box">
+<h3>Trade Signal</h3>
+<div id="signalText">---</div>
+<button onclick="tradeSignal()">Trader maintenant</button>
+<button onclick="closeSignal()">Close</button>
+</div>
+</div>
+
+<script>
+/* === STORAGE & INIT === */
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+/* Assign ID & referral to old accounts */
+for(let u in users){
+if(!users[u].uid) users[u].uid = "N-"+Math.floor(100000+Math.random()*900000)+"x";
+if(!users[u].referral) users[u].referral = "NTX-"+Math.floor(1000+Math.random()*9000)+"G";
+}
+
+/* Admin default */
+if(!users.admin){
+users.admin={password:"1234",balance:200000,uid:"N-100001x",referral:"NTX-1001G",signals:{}};
+}
+
+let currentUser=null;
+
+/* === AUTH UI === */
+function showAuthModal(){
+authModal.style.display="flex";
+}
+function showRegister(){
+loginBox.style.display="none";
+registerBox.style.display="block";
+}
+function backLogin(){
+registerBox.style.display="none";
+loginBox.style.display="block";
+}
+
+/* === REGISTER === */
+function register(){
+let name = regName.value.trim();
+let email = regEmail.value.trim();
+let ref = regRef.value.trim();
+let pass = regPass.value.trim();
+let confirm = regConfirm.value.trim();
+
+if(!name || !email || !ref || !pass || !confirm){
+alert("Tous les champs sont obligatoires"); return;
+}
+if(pass.length!=6 || isNaN(pass)){ alert("Mot de passe 6 chiffres"); return;}
+if(pass!==confirm){ alert("Les mots de passe ne correspondent pas"); return;}
+if(!Object.values(users).some(u=>u.referral===ref)){ alert("Code parrain invalide"); return;}
+
+let uid = "N-"+Math.floor(100000+Math.random()*900000)+"x";
+let referral = "NTX-"+Math.floor(1000+Math.random()*9000)+"G";
+
+users[email]={name:name, balance:0, uid:uid, referral:referral, signals:{}, team:[]};
+/* Add to referrer team */
+for(let u in users){ if(users[u].referral===ref) users[u].team.push(email);}
+currentUser=email;
+localStorage.setItem("users",JSON.stringify(users));
+updateUI();
+authModal.style.display="none";
+}
+
+/* === LOGIN === */
+function login(){
+let e=loginEmail.value;
+let p=loginPass.value;
+if(users[e] && users[e].password===p){
+currentUser=e;
+updateUI();
+authModal.style.display="none";
+}else{ alert("Login invalide"); }
+}
+
+/* === UPDATE UI === */
+function updateUI(){
+if(!currentUser) return;
+balance.innerText = users[currentUser].balance.toFixed(2);
+userId.innerText = users[currentUser].uid;
+refCode.innerText = users[currentUser].referral;
+}
+
+/* === DEPOSIT / WITHDRAW === */
+function deposit(){
+if(!currentUser){ alert("Login requis"); return; }
+users[currentUser].balance +=100;
+localStorage.setItem("users",JSON.stringify(users));
+updateUI();
+}
+function withdraw(){
+if(!currentUser){ alert("Login requis"); return; }
+if(users[currentUser].balance<50){ alert("Solde insuffisant"); return;}
+users[currentUser].balance -=50;
+localStorage.setItem("users",JSON.stringify(users));
+updateUI();
+}
+
+/* === INVITE / CERT === */
+function invite(){
+if(!currentUser){ alert("Login requis"); return; }
+let link="https://novatrex.com/ref/"+users[currentUser].referral;
+navigator.clipboard.writeText(link);
+alert("Lien copié : "+link);
+}
+function cert(){ if(!currentUser){ alert("Login requis"); return;} alert("Certification validée"); }
+
+/* === DELIVERY / SIGNAL === */
+const signalHours=[8,11,13];
+const bonusHour=16;
+const signalDuration=15; // minutes
+function currentSignal(){
+let now=new Date();
+let h=now.getHours();
+let m=now.getMinutes();
+for(let s of signalHours){ if(h===s && m<=signalDuration) return s; }
+if(h===bonusHour && m<=signalDuration) return "bonus";
+return null;
+}
+function showSignal(){
+if(!currentUser){ alert("Login requis"); return;}
+let sig=currentSignal();
+if(!sig){ alert("Pas de signal maintenant"); return;}
+signalModal.style.display="flex";
+signalText.innerText="SIGNAL "+sig+" | Copiez et tradez";
+}
+function tradeSignal(){
+let sig=currentSignal();
+if(!sig){ alert("Pas de signal"); return;}
+if(!users[currentUser].signals) users[currentUser].signals={};
+if(users[currentUser].signals[sig]){ alert("Signal déjà utilisé"); return; }
+let invest = users[currentUser].balance>0?users[currentUser].balance:100;
+let gain = (sig==="bonus")?4:invest*0.02;
+users[currentUser].balance += gain;
+users[currentUser].signals[sig]=true;
+localStorage.setItem("users",JSON.stringify(users));
+updateUI();
+alert("Signal réussi +"+gain.toFixed(2)+" USDT");
+}
+function openDelivery(){ if(!currentUser){ alert("Login requis"); return;} deliveryModal.style.display="flex"; }
+function closeDelivery(){ deliveryModal.style.display="none"; }
+function closeSignal(){ signalModal.style.display="none"; }
+
+/* === NAV / PRICES === */
+function goHome(){ location.reload(); }
+setInterval(()=>{
+document.getElementById("btc").innerText=(80000+Math.random()*2000).toFixed(2);
+document.getElementById("eth").innerText=(4000+Math.random()*500).toFixed(2);
+},3000);
+</script>
+
+</body>
+  </html>
